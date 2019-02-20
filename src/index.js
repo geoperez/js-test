@@ -18,7 +18,7 @@ export default {
 
         return (message, loggerName) => logger(`${loggerName}:${message[1]}`);
     },
-    createLoggerAsync: (loggerName) => {
+    createLoggerAsync: async (loggerName) => {
         const logger = defaultLogger(loggerName);
         let templateFn;
 
