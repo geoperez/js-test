@@ -1,9 +1,11 @@
+const formatText = (templateFn, data) => templateFn.bind(data)();
+
 export default {
     version: () => 1,
-    formatText: (templateFn, data) => templateFn.bind(data)(),
+    formatText,
     createLogger: (templateFn, loggerName) => {
         let i = 0;
 
-        return data => (++i) + ' - ' + loggerName + ' - ' + templateFn.bind(data)();
+        return data => `${++i} - ${loggerName} - ${formatText(templateFn, data)}`;
     }
 };
