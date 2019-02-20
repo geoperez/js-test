@@ -23,6 +23,18 @@ Create a SDK object with the following methods:
     sdk.formatText(greet, { name: 'Juan' }); // 'Hello Juan'
     ```
 
+* `createLogger(templateFn, loggerName)` - Function receiving a function and returning a new one with a line tracker:
+
+    ```
+    function log() {
+        return 'Info: ' + this.logMessage;
+    }
+
+    const logger = sdk.createLogger(log, 'Main');
+    logger( { logMessage: 'Init system' }); // '1 - Main - Info: Init system'
+    logger( { logMessage: 'Init userspace' }); // '2 - Main - Info: Init userspace'
+    ```
+
 The SDK should be exported as the default value in the index file of the src folder.
 
 The SDK will be validated using `npm test`. Don't change anything outside the src folder.
