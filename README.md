@@ -44,6 +44,19 @@ info`${loggerName} Init system`; // '1 - Info - Main: Init system'
 info`${loggerName} Init userspace`; // '2 - Info - Main: Init userspace'
 ```
 
+* `createLoggerAsync(loggerName)` - Function returning a promise of an object with a setter method `setLoggerFn`:
+
+```javascript
+function log() {
+    return `Info: ${this.logMessage}`;
+}
+
+const logger = await sdk.createLoggerAsync('Main');
+logger.setLoggerFn(log);
+logger.log( { logMessage: 'Init system' }); // '1 - Main - Info: Init system'
+logger.log( { logMessage: 'Init userspace' }); // '2 - Main - Info: Init userspace'
+```
+
 The SDK should be exported as the default value in the index file of the src folder.
 
 The SDK will be validated using `npm test`. Don't change anything outside the src folder.

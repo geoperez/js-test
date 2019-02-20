@@ -1,16 +1,30 @@
 const formatText = (templateFn, data) => templateFn.bind(data)();
+const defaultLogger = (param) => {
+    let i = 0;
+
+    return message => `${++i} - ${param} - ${message}`;
+};
 
 export default {
     version: () => 1,
     formatText,
     createLogger: (templateFn, loggerName) => {
-        let i = 0;
+        const logger = defaultLogger(loggerName);
 
-        return data => `${++i} - ${loggerName} - ${formatText(templateFn, data)}`;
+        return (data) => logger(formatText(templateFn, data));
     },
     createLevelLogger: (level) => {
-        let i = 0;
+        const logger = defaultLogger(level);
 
-        return (message, loggerName) => `${++i} - ${level} - ${loggerName}:${message[1]}`;
-    }
+        return (message, loggerName) => logger(`${loggerName}:${message[1]}`);
+    },
+    createLoggerAsync: (loggerName) => {
+        const logger = defaultLogger(loggerName);
+        let templateFn;
+
+        return ({
+            setLoggerFn: (fn) => templateFn = fn,
+            log: (data) => logger(formatText(templateFn, data))
+        });
+    },
 };

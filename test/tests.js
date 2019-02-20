@@ -26,3 +26,14 @@ const loggerName = 'Main';
 
 uno('`createLevelLogger` - First log call', () => info`${loggerName} Init system`, [], '1 - Info - Main: Init system');
 uno('`createLevelLogger` - Second log call', () => info`${loggerName} Init userspace`, [], '2 - Info - Main: Init userspace');
+
+async function testCreateLoggerAsync() {
+    const asyncLogger = await sdk.createLoggerAsync('Main');
+    asyncLogger.setLoggerFn(log);
+    uno('`createLoggerAsync` - First log call', asyncLogger.log, [ { logMessage: 'Init system' } ], '1 - Main - Info: Init system');
+    uno('`createLoggerAsync` - Second log call', asyncLogger.log, [ { logMessage: 'Init userspace' } ], '2 - Main - Info: Init userspace');
+
+    return true;
+}
+
+testCreateLoggerAsync().then(x => uno(() => x, [], true));
