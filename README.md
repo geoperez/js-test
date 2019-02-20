@@ -44,9 +44,11 @@ info`${loggerName} Init system`; // '1 - Info - Main: Init system'
 info`${loggerName} Init userspace`; // '2 - Info - Main: Init userspace'
 ```
 
-* `createLoggerAsync(loggerName)` - Function returning a promise of an object with a setter method `setLoggerFn`:
+* `createLoggerAsync(loggerName)` - Function returning a promise of an object with a setter method `setLoggerFn`.
+If the loggerName is empty, reject the promise:
 
 ```javascript
+// Valid promise
 function log() {
     return `Info: ${this.logMessage}`;
 }
@@ -55,6 +57,13 @@ const logger = await sdk.createLoggerAsync('Main');
 logger.setLoggerFn(log);
 logger.log( { logMessage: 'Init system' }); // '1 - Main - Info: Init system'
 logger.log( { logMessage: 'Init userspace' }); // '2 - Main - Info: Init userspace'
+
+// Invalid promise
+try {
+    const invalidLogger = await sdk.createLoggerAsync();
+} catch {
+    // Throw
+}
 ```
 
 The SDK should be exported as the default value in the index file of the src folder.

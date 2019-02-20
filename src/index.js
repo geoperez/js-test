@@ -22,9 +22,17 @@ export default {
         const logger = defaultLogger(loggerName);
         let templateFn;
 
-        return ({
-            setLoggerFn: (fn) => templateFn = fn,
-            log: (data) => logger(formatText(templateFn, data))
+        return new Promise((resolve, reject) => {
+            if (!loggerName)
+            {
+                reject('Invalid loggerName');
+                return;
+            }
+
+            resolve({
+                setLoggerFn: (fn) => templateFn = fn,
+                log: (data) => logger(formatText(templateFn, data))
+            });
         });
     },
 };
