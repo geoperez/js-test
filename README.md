@@ -15,7 +15,7 @@ Create a SDK object with the following methods:
 * `version()` - Parameterless function returns 1.
 * `formatText(templateFn, data)` - Function receiving a function and an data object:
 
-```
+```javascript
 function greet() {
     return `Hello ${this.name}`;
 }
@@ -25,7 +25,7 @@ sdk.formatText(greet, { name: 'Juan' }); // 'Hello Juan'
 
 * `createLogger(templateFn, loggerName)` - Function receiving a function and returning a new one with a line tracker:
 
-```
+```javascript
 function log() {
     return `Info: ${this.logMessage}`;
 }
@@ -37,7 +37,7 @@ logger( { logMessage: 'Init userspace' }); // '2 - Main - Info: Init userspace'
 
 * `createLevelLogger(level)` - Function returning a tagged template with a line tracker and expecting a loggerName variable:
 
-```
+```javascript
 const info = sdk.createLevelLogger('Info');
 const loggerName = 'Main';
 info`${loggerName} Init system`; // '1 - Info - Main: Init system'
