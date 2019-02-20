@@ -35,11 +35,13 @@ logger( { logMessage: 'Init system' }); // '1 - Main - Info: Init system'
 logger( { logMessage: 'Init userspace' }); // '2 - Main - Info: Init userspace'
 ```
 
-* `createLevelLogger` - :
+* `createLevelLogger(level)` - Function returning a tagged template with a line tracker and expecting a loggerName variable:
 
 ```
 const info = sdk.createLevelLogger('Info');
-info`Init system`; // '1 - Info: Init system'
+const loggerName = 'Main';
+info`${loggerName} Init system`; // '1 - Info - Main: Init system'
+info`${loggerName} Init userspace`; // '2 - Info - Main: Init userspace'
 ```
 
 The SDK should be exported as the default value in the index file of the src folder.

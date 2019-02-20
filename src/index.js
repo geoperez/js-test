@@ -7,5 +7,10 @@ export default {
         let i = 0;
 
         return data => `${++i} - ${loggerName} - ${formatText(templateFn, data)}`;
+    },
+    createLevelLogger: (level) => {
+        let i = 0;
+
+        return (message, loggerName) => `${++i} - ${level} - ${loggerName}:${message[1]}`;
     }
 };

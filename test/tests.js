@@ -9,13 +9,20 @@ function log() {
     return `Info: ${this.logMessage}`;
 }
 
-var logger = sdk.createLogger(log, 'Main');
-var anotherlogger = sdk.createLogger(log, 'Secondary');
-
 uno(sdk.version, [], 1);
 uno(sdk.formatText, [ greet, { name: 'Juan' } ], 'Hello Juan');
 
-uno('First log call', logger, [ { logMessage: 'Init system' } ], '1 - Main - Info: Init system');
-uno('Second log call', logger, [ { logMessage: 'Init userspace' } ], '2 - Main - Info: Init userspace');
+const logger = sdk.createLogger(log, 'Main');
 
-uno('First log call of seconday logger', anotherlogger, [ { logMessage: 'Init system' } ], '1 - Secondary - Info: Init system');
+uno('`createLogger` - First log call', logger, [ { logMessage: 'Init system' } ], '1 - Main - Info: Init system');
+uno('`createLogger` - Second log call', logger, [ { logMessage: 'Init userspace' } ], '2 - Main - Info: Init userspace');
+
+const anotherlogger = sdk.createLogger(log, 'Secondary');
+
+uno('`createLogger` - First log call of seconday logger', anotherlogger, [ { logMessage: 'Init system' } ], '1 - Secondary - Info: Init system');
+
+const info = sdk.createLevelLogger('Info');
+const loggerName = 'Main';
+
+uno('`createLevelLogger` - First log call', () => info`${loggerName} Init system`, [], '1 - Info - Main: Init system');
+uno('`createLevelLogger` - Second log call', () => info`${loggerName} Init userspace`, [], '2 - Info - Main: Init userspace');
