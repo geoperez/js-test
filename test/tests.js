@@ -60,3 +60,9 @@ async function testCreateInvalidLoggerAsync() {
 }
 
 testCreateInvalidLoggerAsync().then(x => uno(() => x, [], false));
+
+uno(() => [...sdk.getLogEntries('Info')].length, [], 2);
+
+const sequence = sdk.getLogEntries('Info').generator();
+
+uno(() => sequence.next().value === sequence.next(true).value, [], true);

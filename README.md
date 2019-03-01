@@ -66,6 +66,17 @@ try {
 }
 ```
 
+* `getLogEntries(level)` - Function returning an iterable object by level with all the logs in the SDK, also a generator should be available:
+
+```javascript
+for(var logEntry in sdk.getLogEntries('Info')) {
+    console.log(logEntry); // Outputs all the log entries
+}
+
+const sequence = sdk.getLogEntries('Info').generator();
+console.log(sequence.next().value); // Outputs first entry
+```
+
 The SDK should be exported as the default value in the index file of the src folder.
 
 The SDK will be validated using `npm test`. Don't change anything outside the src folder.

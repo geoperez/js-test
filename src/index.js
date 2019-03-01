@@ -1,8 +1,17 @@
+const data = {};
 const formatText = (templateFn, data) => templateFn.bind(data)();
-const defaultLogger = (param) => {
+const defaultLogger = (param, save) => {
     let i = 0;
 
-    return message => `${++i} - ${param} - ${message}`;
+    return message => {
+        const entry = `${++i} - ${param} - ${message}`;
+
+        if (save) {
+            data[param] = data[param] ? [...data[param], entry] : [entry];
+        }
+
+        return entry;
+    };
 };
 
 export default {
@@ -14,7 +23,7 @@ export default {
         return (data) => logger(formatText(templateFn, data));
     },
     createLevelLogger: (level) => {
-        const logger = defaultLogger(level);
+        const logger = defaultLogger(level, true);
 
         return (message, loggerName) => logger(`${loggerName}:${message[1]}`);
     },
@@ -23,8 +32,7 @@ export default {
         let templateFn;
 
         return new Promise((resolve, reject) => {
-            if (!loggerName)
-            {
+            if (!loggerName) {
                 reject('Invalid loggerName');
                 return;
             }
@@ -34,5 +42,27 @@ export default {
                 log: (data) => logger(formatText(templateFn, data))
             });
         });
+    },
+    getLogEntries: (level) => {
+        function* generator() {
+            let index = 0;
+
+            while (true) {
+                const entry = data[level][index++];
+                if (!entry) {
+                    break;
+                }
+                const reset = yield entry;
+                if (reset) {
+                    index = 0;
+                }
+            }
+        }
+        return {
+            *[Symbol.iterator]() {
+                yield* generator();
+            },
+            generator
+        };
     },
 };
