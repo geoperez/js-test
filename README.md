@@ -12,6 +12,8 @@ JS Test
 
 Create a SDK object with the following methods:
 
+*NOTE* - You need to save all the logs in an internal data structure. You will need to provide previous logs with some methods.
+
 * `version()` - Parameterless function returns 1.
 * `formatText(templateFn, data)` - Function receiving a function and an data object:
 
