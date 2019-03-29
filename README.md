@@ -71,7 +71,7 @@ try {
 * `getLogEntries(level)` - Function returning an iterable object by level with all the logs in the SDK, also a generator should be available:
 
 ```javascript
-for(var logEntry in sdk.getLogEntries('Info')) {
+for(var logEntry of sdk.getLogEntries('Info')) {
     console.log(logEntry); // Outputs all the log entries
 }
 
